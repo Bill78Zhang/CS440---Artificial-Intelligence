@@ -1,0 +1,70 @@
+\documentclass[titlepage]{article}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+
+\title{CS 440 - Homework 6}
+\author{Matthew Liu}
+\date{}
+
+\begin{document}
+\maketitle{}
+
+\noindent \textbf{1. } \\
+
+\centerline{\includegraphics[scale=0.5]{DecisionTree.png}}
+
+\pagebreak
+
+\begin{enumerate}[label=(\alph*)]
+	\item Decision Tree is attached above
+	\item Classifications:
+	\begin{itemize}
+		\item Student 21: +
+		\item Student 22: +
+		\item Student 23: -
+		\item Student 24: +
+		\item Student 25: -
+		\item Student 26: -
+		\item Student 27: +
+		\item Student 28: +
+		\item Student 29: -
+		\item Student 30: +
+	\end{itemize}
+	\item Classifications:
+	\begin{itemize}
+		\item Student 11: +
+		\item Student 12: -
+		\item Student 13: +
+		\item Student 14: +
+		\item Student 15: -
+		\item Student 16: -
+		\item Student 17: +
+		\item Student 18: +
+		\item Student 19: -
+		\item Student 20: +
+	\end{itemize}
+	\item The results from \textbf{(b)} would be the better estimate as \textbf{(c)} was part of the training set for the classifier
+	\item The classifier from Scenario 2 would be significantly more accurate then the classifier from Scenario 1, as the Scenario 1 does not have enough training data to produce meaningful results
+	\item Decision Tree is attached below
+\end{enumerate}
+
+\centerline{\includegraphics[scale=0.5]{DecisionTree2.png}}
+
+\pagebreak
+
+\noindent \textbf{2. } \\
+
+\begin{enumerate}[label=(\alph*)]
+	\item The following are three possible approaches
+	\begin{itemize}
+		\item Limit the depth: limit how deep the decision tree can go
+		\item Limit the minimum number of example used to select a split: Require a minimum amount of data to continue splitting the decision tree. This is similar to limiting the depth, but does so differently
+		\item Cross Validation: Partition data into training set and testing set, and rotate data for both. sizes of both sets can vary.
+	\end{itemize}
+	\item Cross Validation
+	\item I would break up the data into sets of 5 (into a total of N sets), and rotate which N-1 sets will be used for training use the remaining set as a evaluation/testing set. This is better than limiting the depth because that forcefully prunes the tree, and in a tree like this one where it can't really go all that deep, all it does is create a poor classifier. Limiting the minimum number of examples used to select a split would work if there was a plethora of data, however this dataset does not have a wealth of data, hence this method would again limit the effectiveness of our classifier
+	\item As this algorithm rotates through and considers all possible combinations of data subsets for training and evaluation, it will always produce the shortest decision tree because of it. Of course the cost is that depending on the size of the dataset, this algorithm can take a while to complete.
+\end{enumerate}
+
+\end{document}

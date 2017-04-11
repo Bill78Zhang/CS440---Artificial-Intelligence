@@ -1,0 +1,32 @@
+alpha_value = 0.4
+gamma_value = 0.95
+epsilon_value = 0.04
+8.054
+7.645
+8.1213
+7.454
+
+alpha_value = 0.6
+gamma_value = 0.98
+epsilon_value = 0.06
+8.209
+
+alpha_value = 0.7
+gamma_value = 0.95
+epsilon_value = 0.06
+8.2298
+
+alpha_value = 0.7
+gamma_value = 0.99
+epsilon_value = 0.04
+8.27
+
+alpha_value = 0.6
+gamma_value = 0.99
+epsilon_value = 0.04
+8.422
+
+alpha_value = 0.6
+gamma_value = 0.99
+epsilon_value = 0.02
+8.414

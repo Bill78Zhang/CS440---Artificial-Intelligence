@@ -1,0 +1,120 @@
+\documentclass[titlepage]{article}
+\usepackage{amsmath}
+
+\title{CS 440 - Homework 2}
+\author{Matthew Liu}
+\date{}
+
+\begin{document}
+\maketitle{}
+
+\noindent \textbf{1. } Suppose we could destroy any block in the otherwise traditional blocks world. The destruction is gentle with any supported blocks settling down on the support under the destroyed block.\\
+
+\textbf{a) } Operators defined below
+
+\begin{quote}
+	DestroyBlkUnderBlk(?x)
+	\begin{itemize}
+		\item Preconditions: Blk(?x), Blk(?y), On(?y,?x), On(?x,?z)
+		\item Delete: Blk(?x), On(?y,?x), On(?x,?z)
+		\item Add: On(?y, ?z)
+	\end{itemize}
+
+	DestroyClrBlkOnTable(?x)
+	\begin{itemize}
+		\item Preconditions: Blk(?x), Clr(?x), On(?x,?y), Tbl(?y)
+		\item Delete: Blk(?x), Clr(?x), On(?x,?y)
+		\item Add: Nothing
+	\end{itemize}
+
+	DestroyClrBlkOnBlock(?x)
+	\begin{itemize}
+		\item Preconditions: Blk(?x), Clr(?x), On(?x,?y), Blk(?y)
+		\item Delete: Blk(?x), Clr(?x), On(?x,?y)
+		\item Add: Clr(?y)
+	\end{itemize}
+\end{quote}
+
+\textbf{b) } Examples listed below
+
+\begin{quote}
+	Example with Destroy: Moving a block on a block on the table to the table. Using destroy would cost of $2$, whereas MoveToTable would cost $3$.
+	\begin{itemize}
+		\item Initial State: Blk(?x), Blk(?y), Tbl(?z), On(?x,?y), On(?y,?z)
+		\item Actions: Destroy(?y)
+		\item Goal State: Blk(?x), Tbl(?z), On(?x,?z)
+	\end{itemize}
+
+	Example without Destroy: Moving a block on the top of a stack of 3 blocks to the table. Using destroy would cost of $3x2=6$, whereas MoveToTable just costs $3$.
+	\begin{itemize}
+		\item Initial State: Blk(?a), Blk(?b), Blk(?c), Blk(?d), Tbl(?e), On(?a,?b), On(?b,?c), On(?c,?d), On(?d,?e)
+		\item Actions: MoveToTable(?a)
+		\item Goal State: Blk(?a), Blk(?b), Blk(?c), Blk(?d), Tbl(?e), On(?a,?e)
+	\end{itemize}
+\end{quote}
+
+\newpage
+
+\textbf{c) } Examples listed below
+
+\begin{quote}
+	Example with Destroy: Moving a block with 2 blocks on top and the block itself is on a block on the table to the table. Using destroy would evoke a cost of $4$, whereas MoveToTable then MoveToBlock would cost $3+2=5$.
+	\begin{itemize}
+		\item Initial State: Blk(?a), Blk(?b), Blk(?c), Blk(?d), Tbl(?e), On(?a,?b), On(?b,?c), On(?c,?d), On(?d,?e)
+		\item Actions: Destroy(?d)
+		\item Goal State: Blk(?a), Blk(?b), Blk(?c), Tbl(?e), On(?c,?e), On(?b, ?a)
+	\end{itemize}
+
+	Example without Destroy: Moving a block on a block on the table to the table. Using destroy would cost of $4$, whereas MoveToTable would cost $3$.
+	\begin{itemize}
+		\item Initial State: Blk(?x), Blk(?y), Tbl(?z), On(?x,?y), On(?y,?z)
+		\item Actions: MoveToTable(?y)
+		\item Goal State: Blk(?x), Tbl(?z), On(?x,?z)
+	\end{itemize}
+\end{quote}
+
+\noindent \textbf{2. } Give the most natural English sentence you can for the following first-order logic sentences. If it is ambiguous, give all meanings. If it is not possible to translate into English, explain why.\\
+
+\textbf{a) } Every human that drinks tea owns a cup.\\
+
+\textbf{b) } Ambigious as the variable y is not defined, thus making it impossible to translate. It could be a human, in which case the statement is saying that for all people who can't shave themselves there exists a barber who shaves them and if there exists a barber who shaves a person, then that person cannot shave themselves.\\
+
+\textbf{c) } Similar to b, y could be a human, in which case for all people who cannot shave themselves there exists a barber who will shave them, and the barber shaves himself or herself.\\
+
+\newpage
+
+\noindent \textbf{3. } Give a first-order logic sentence that best captures the meaning of the following English sentences. If the meaning of a predicate is not obvious, be sure to explain your intended semantics.\\
+
+\textbf{a) } Not everyone likes onions
+
+\centerline{$\exists x(\text{Human}(x) \wedge \forall y(\text{Onion}(y) \wedge \neg\text{Like}(x, y)))$}
+\centerline{}
+
+\textbf{b) } Some cats would do anything to cause trouble
+
+\centerline{$\exists x(\text{Cat}(x) \wedge \forall y(\text{Action}(y) \Rightarrow \exists z(\text{Trouble}(z) \wedge \text{Cause}(z))))$}
+\centerline{}
+
+\textbf{c) } The road to hell is paved with good intentions
+
+\centerline{$\exists x(\text{RoadToHell}(x) \wedge \exists y(\text{GoodIntentions}(y) \Rightarrow \text{Paved}(x, y)))$}
+\centerline{}
+
+\noindent \textbf{4. } Give the most general unifier and a corresponding unification instance for each set of expressions below. If unification is not possible, write ``No Unification'' and briefly explain why.\\
+
+\textbf{a) } No Unification. There are too many circular dependencies, always leading to the repeat definition of a variable (as in a variable shows up on the left side of equal multiple times).\\
+
+\textbf{b) } Unification below
+
+\begin{quote}	
+	\begin{itemize}
+		\item MGU: $\{?z=?y, ?y=?w, ?w=?v, ?v=?x, ?u=?x, ?x=\text{Bob}\}$
+		\item Unification Instance: $\text{Parents}(Bob, Bob, Bob, Bob)$
+	\end{itemize}
+\end{quote}
+
+\textbf{c) } No Unification, Same problem as a, but one step further. Lets assume for one second that the MGU $\{?x=\text{Sister}(?u), \text{Sister}(?v)=?x, \text{Sister}(?u)=\text{Sister}(?v), ?v=?u Son(?v)=Son(?r), ?v=?r, ?r=\text{John}\}$, This leads to part of a unification instance $(?x=\text{Sister-of}(\text{John}))$. This however is impossible, as the questions notes that John has no sisters at all\\
+
+\textbf{d) } No Unification. Dogs and Like are different functions, hence they can not be equated.
+
+\end{document}
