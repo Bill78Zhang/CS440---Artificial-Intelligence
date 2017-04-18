@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 
 \title{CS 440 - Homework 7}
-\author{Matthew Liu}
+\author{Matthew Liu - mliu56}
 \date{}
 
 \begin{document}
@@ -13,13 +13,21 @@
 \noindent \textbf{1. } Conceptual Questions \\
 
 \begin{enumerate}
-	\item What is the example space, \textbf{\textit{X}}, for this problem?
-	\item Which model do you expect to be more expressive: a binary classifier perceptron or a binary classifier multi-layer perceptron with one hidden layer? Why?
-	\item Which one of the models described in question 2 do you think is more likely to overfit, and why?
-	\item Do you expect your perceptron to converge (assuming a constant learning rate)? Why or why not?
+	\item What is the example space, \textbf{\textit{X}}, for this problem? \\
+	Since the input can be {0, 0.5, 1}, \textbf{\textit{X}} is 3-dimensional real space $R^3$
+	\item Which model do you expect to be more expressive: a binary classifier perceptron or a binary classifier multi-layer perceptron with one hidden layer? Why? \\
+	A binary classifier multi-layer perceptron with one hidden layer will be more expressive, it has more VC dimensions then the former and thus will be the richer model and be able to represent more things.
+	\item Which one of the models described in question 2 do you think is more likely to overfit, and why? \\
+	Even though the multi-layer perceptron with one hidden layer will be more expressive, it is also more likely to overfit when you do not have enough data.
+	\item Do you expect your perceptron to converge (assuming a constant learning rate)? Why or why not? \\
+	Yes, because it seems there is plenty of data available to properly train the perceptron, and the data can be properly separated into positive and negative examples by a hyperplane
 \end{enumerate}
 
+\pagebreak
+
 \noindent \textbf{2. } Implementing a Perceptron \\
+
+Reference: https://en.wikipedia.org/wiki/Perceptron
 
 \begin{enumerate}
 	\item Try adjusting each setting listed above, and report which combination (learning rate, training example ordering, and weight initialization) worked best. If you used random initial weights, specify what distribution the weights came from (uniform, Gaussian, or another distribution).
@@ -27,6 +35,8 @@
 	\item What accuracy did you achieve on the training set?
 	\item What accuracy did you achieve on the test set?	
 \end{enumerate}
+
+\pagebreak
 
 \noindent \textbf{2. } Using a Multilayer Perceptron \\
 
