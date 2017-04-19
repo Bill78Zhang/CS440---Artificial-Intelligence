@@ -29,6 +29,14 @@
 
 Reference: https://en.wikipedia.org/wiki/Perceptron
 
+percepw(x) assigns 1 for + if w.x > 0 (vector dot product)
+else assigns 0 for -
+err = label(x) - percepw(x)
+delta w = alpha * err * x
+w += delta w
+epochs = number of iterations through the entire data set used to train
+limit epochs
+
 \begin{enumerate}
 	\item Try adjusting each setting listed above, and report which combination (learning rate, training example ordering, and weight initialization) worked best. If you used random initial weights, specify what distribution the weights came from (uniform, Gaussian, or another distribution).
 	\item How many epochs were necessary to train your perceptron?
