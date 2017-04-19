@@ -31,8 +31,9 @@ namespace Perceptron
             // TODO: Setup Training Set and Validation Set to determine best parameters
             const double alpha = 0.95;
             const int epoch = 50;
-            // TODO: Add Bias Unit
 
+            // TODO: Refactor to use ints instead of chars
+            // TODO: Refactor into for loop
             var p0 = SetupPerceptron('0', alpha);
             var p1 = SetupPerceptron('1', alpha);
             var p2 = SetupPerceptron('2', alpha);
@@ -133,7 +134,7 @@ namespace Perceptron
             {
                 labels += line;
             }
-
+            // TODO: Refactor to IntArrays
             var dataLabels = labels.ToCharArray();
 
             return dataLabels;

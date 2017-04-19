@@ -7,6 +7,7 @@ namespace Perceptron
 {
     internal class Perceptron
     {
+        // TODO: Update to Int
         public char Label;
         public double Alpha;
         public double[] Weights;
@@ -15,8 +16,9 @@ namespace Perceptron
         /// Classifies input vector </summary>
         /// <param name="X"> Input Data Vector </param>
         /// <param name="XLabel"> Label for Input </param>
-        public void Classify(double[] X, char XLabel)
+        public double Classify(double[] X, char XLabel)
         {
+ 	    var bias = 1;
             var percep = 0;
             if (DotProduct(X) > 0)
             {
@@ -26,6 +28,8 @@ namespace Perceptron
             var err = MatchLabel(XLabel) - percep;
             var deltaWeight = MultiplyConstant(Alpha * err, X);
             UpdateWeight(deltaWeight);
+
+	    return percep + bias;
         }
 
         /// <summary>
