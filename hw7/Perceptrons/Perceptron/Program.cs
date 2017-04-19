@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Perceptron
 {
@@ -20,7 +21,7 @@ namespace Perceptron
         /// Trains Perceptrons </summary>
         /// <returns>
         /// Returns Trained Perceptrons </returns>
-        private static Perceptron[] TrainPerceptrons()
+        private static List<Perceptron> TrainPerceptrons()
         {
             const string imageFilePath = "D:\\CS\\440\\hw7\\Perceptrons\\Perceptron\\data\\trainingimages";
             var trainingData = ImportImages(imageFilePath);
@@ -29,36 +30,37 @@ namespace Perceptron
             var trainingLabels = ImportLabels(labelFilePath);
 
             // TODO: Setup Training Set and Validation Set to determine best parameters
-            const double alpha = 0.95;
+            var trainingLimit = (int) (trainingData.Count * 0.8);
+            var alpha = 0.95;
             const int epoch = 50;
 
-            // TODO: Refactor to use ints instead of chars
-            // TODO: Refactor into for loop
-            var p0 = SetupPerceptron('0', alpha);
-            var p1 = SetupPerceptron('1', alpha);
-            var p2 = SetupPerceptron('2', alpha);
-            var p3 = SetupPerceptron('3', alpha);
-            var p4 = SetupPerceptron('4', alpha);
-            var p5 = SetupPerceptron('5', alpha);
-            var p6 = SetupPerceptron('6', alpha);
-            var p7 = SetupPerceptron('7', alpha);
-            var p8 = SetupPerceptron('8', alpha);
-            var p9 = SetupPerceptron('9', alpha);
-
-            var perceptrons = new Perceptron[] {p0, p1, p2, p3, p4, p5, p6, p7, p8, p9};
-
+            // Initialize Perceptrons
+            var perceptrons = new List<Perceptron>();
+            for (var i = 0; i < 10; i++)
+            {
+                var p = SetupPerceptron(i, alpha);
+                perceptrons.Add(p);
+            }
+            
             for (var e = 0; e < epoch; e++)
             {
-                // TODO: Randomize order of training elements
-                for (var i = 0; i < trainingLabels.Length; i++)
+                var indices = RandomizeSequence(trainingLabels.Length);
+                // Training
+                for (var i = 0; i < trainingLimit; i++)
                 {
-                    var X = trainingData[i];
-                    var XLabel = trainingLabels[i];
+                    var x = trainingData[indices[i]];
+                    var xLabel = trainingLabels[indices[i]];
 
                     foreach (var p in perceptrons)
                     {
-                        p.Classify(X, XLabel);
+                        p.Classify(x, xLabel);
                     }
+                }
+
+                // Validation
+                for (var i = trainingLimit; i < indices.Length; i++)
+                {
+                    
                 }
             }
 
@@ -67,32 +69,31 @@ namespace Perceptron
 
         /// <summary>
         /// Imports Images as vectors </summary>
-        /// <param name="ImageFilePath"> File Path to Image File </param>
+        /// <param name="imageFilePath"> File Path to Image File </param>
         /// <returns>
         /// Returns List of double Array of images </returns>
-        private static List<double[]> ImportImages(string ImageFilePath)
+        private static List<double[]> ImportImages(string imageFilePath)
         {
             var data = new List<double[]>();
 
             var counter = 0;
             string line;
             var item = "";
-            var file = new System.IO.StreamReader(File.OpenRead(ImageFilePath));
+            var file = new StreamReader(File.OpenRead(imageFilePath));
             while ((line = file.ReadLine()) != null)
             {
                 item += line;
 
-                if (++counter % 28 == 0)
-                {
-                    var itemData = new double[item.Length];
+                if (++counter % 28 != 0) continue;
 
-                    for (int i = 0; i < item.Length; i++)
-                    {
-                        itemData[i] = ConvertCharacter(item[i]);
-                    }
-                    data.Add(itemData);
-                    item = "";
+                var itemData = new double[item.Length];
+
+                for (var i = 0; i < item.Length; i++)
+                {
+                    itemData[i] = ConvertCharacter(item[i]);
                 }
+                data.Add(itemData);
+                item = "";
             }
 
             return data;
@@ -100,12 +101,12 @@ namespace Perceptron
 
         /// <summary>
         /// Classifies Input Characters </summary>
-        /// <param name="InputValue"> Input Character </param>
+        /// <param name="inputValue"> Input Character </param>
         /// <returns>
         /// Returns Classified Value </returns>
-        private static double ConvertCharacter(char InputValue)
+        private static double ConvertCharacter(char inputValue)
         {
-            switch (InputValue)
+            switch (inputValue)
             {
                 case ' ':
                     return 0.0;
@@ -113,8 +114,6 @@ namespace Perceptron
                     return 0.5;
                 case '#':
                     return 1.0;
-                default:
-                    break;
             }
 
             return 0.0;
@@ -122,20 +121,20 @@ namespace Perceptron
 
         /// <summary>
         /// Imports Labels </summary>
-        /// <param name="LabelFilePath"> File Path to Label File </param>
+        /// <param name="labelFilePath"> File Path to Label File </param>
         /// <returns>
-        /// Returns Char Array of labels </returns>
-        private static char[] ImportLabels(string LabelFilePath)
+        /// Returns Int Array of labels </returns>
+        private static int[] ImportLabels(string labelFilePath)
         {
             var labels = "";
             string line;
-            var file = new System.IO.StreamReader(File.OpenRead(LabelFilePath));
+            var file = new StreamReader(File.OpenRead(labelFilePath));
             while ((line = file.ReadLine()) != null)
             {
                 labels += line;
             }
-            // TODO: Refactor to IntArrays
-            var dataLabels = labels.ToCharArray();
+
+            var dataLabels = labels.Select(label => label - '0').ToArray();
 
             return dataLabels;
         }
@@ -146,7 +145,7 @@ namespace Perceptron
         /// <param name="alpha"> Learning Rate </param>
         /// <returns>
         /// Returns Initialized Perceptron </returns>
-        private static Perceptron SetupPerceptron(char label, double alpha)
+        private static Perceptron SetupPerceptron(int label, double alpha)
         {
             var p = new Perceptron
             {
@@ -161,6 +160,32 @@ namespace Perceptron
             }
 
             return p;
+        }
+
+        /// <summary>
+        /// Fisher-Yates Shuffle, randomize sequence of numbers </summary>
+        /// <param name="count"> number of elements </param>
+        /// <returns>
+        /// Returns int array of randomized numbers </returns>
+        private static int[] RandomizeSequence(int count)
+        {
+            var rng = new Random();
+            var numbers = new int[count];
+
+            for (var i = 0; i < count; i++)
+            {
+                numbers[i] = i;
+            }
+
+            for (var i = 0; i < count - 2; i++)
+            {
+                var j = rng.Next(i, count);
+                var temp = numbers[i];
+                numbers[i] = numbers[j];
+                numbers[j] = temp;
+            }
+
+            return numbers;
         }
     }
 }
