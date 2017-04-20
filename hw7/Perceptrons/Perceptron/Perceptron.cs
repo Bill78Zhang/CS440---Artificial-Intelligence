@@ -18,17 +18,28 @@ namespace Perceptron
         public double Classify(double[] x, int xLabel)
         {
  	        const int bias = 1;
+            var dotProduct = DotProduct(x);
             var percep = 0;
-            if (DotProduct(x) > 0)
+            if (dotProduct > 0)
             {
                 percep = 1;
             }
 
             var err = MatchLabel(xLabel) - percep;
-            var deltaWeight = MultiplyConstant(Alpha * err, x);
+            var loss = Alpha * err;
+            var deltaWeight = MultiplyConstant(loss, x);
             UpdateWeight(deltaWeight);
 
-	        return percep + bias;
+	        return dotProduct + bias;
+        }
+
+        public void UpdateAlpha(int epoch)
+        {
+            Alpha -= 1.0 / epoch;
+            if (Alpha <= 0.0)
+            {
+                Alpha = 0.0;
+            }
         }
 
         /// <summary>

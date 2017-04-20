@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Xml.Linq;
 
 namespace Perceptron
 {
@@ -29,10 +30,9 @@ namespace Perceptron
             const string labelFilePath = "D:\\CS\\440\\hw7\\Perceptrons\\Perceptron\\data\\traininglabels";
             var trainingLabels = ImportLabels(labelFilePath);
 
-            // TODO: Setup Training Set and Validation Set to determine best parameters
             var trainingLimit = (int) (trainingData.Count * 0.8);
-            var alpha = 0.95;
-            const int epoch = 50;
+            var alpha = 0.25;
+            const int epoch = 100000;
 
             // Initialize Perceptrons
             var perceptrons = new List<Perceptron>();
@@ -57,10 +57,41 @@ namespace Perceptron
                     }
                 }
 
+                var correct = 0.0;
+                var numClassified = 0.0;
+
                 // Validation
                 for (var i = trainingLimit; i < indices.Length; i++)
                 {
-                    
+                    var x = trainingData[indices[i]];
+                    var xLabel = trainingLabels[indices[i]];
+
+                    var best = 0.0;
+                    var perceptron = 0;
+
+                    for (var j = 0; j < perceptrons.Count; j++)
+                    {
+                        var p = perceptrons[j];
+                        var temp = p.Classify(x, xLabel);
+
+                        if (temp > best)
+                        {
+                            best = temp;
+                            perceptron = j;
+                        }
+                    }
+
+                    if (perceptron == xLabel)
+                    {
+                        correct++;
+                    }
+
+                    numClassified++;
+                }
+
+                if (e % 100 == 0)
+                {
+                    Console.WriteLine("Epoch: " + e + " Accuracy: " + correct / numClassified * 100);
                 }
             }
 
