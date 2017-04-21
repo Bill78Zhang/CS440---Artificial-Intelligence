@@ -1,0 +1,15 @@
+﻿<Properties StartupConfiguration="{AAE33A3F-5BBE-4301-9DE4-5934C5FBAF8D}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Perceptron/Program.cs">
+    <Files>
+      <File FileName="Perceptron/Perceptron.cs" Line="13" Column="3" />
+      <File FileName="Perceptron/Program.cs" Line="31" Column="108" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Perceptron PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>

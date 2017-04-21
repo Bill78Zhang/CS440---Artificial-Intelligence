@@ -24,15 +24,17 @@ namespace Perceptron
         /// Returns Trained Perceptrons </returns>
         private static List<Perceptron> TrainPerceptrons()
         {
-            const string imageFilePath = "D:\\CS\\440\\hw7\\Perceptrons\\Perceptron\\data\\trainingimages";
+            //const string imageFilePath = "D:\\CS\\440\\hw7\\Perceptrons\\Perceptron\\data\\trainingimages";
+			const string imageFilePath = "data/trainingimages";
             var trainingData = ImportImages(imageFilePath);
 
-            const string labelFilePath = "D:\\CS\\440\\hw7\\Perceptrons\\Perceptron\\data\\traininglabels";
+            //const string labelFilePath = "D:\\CS\\440\\hw7\\Perceptrons\\Perceptron\\data\\traininglabels";
+			const string labelFilePath = "data/traininglabels";
             var trainingLabels = ImportLabels(labelFilePath);
 
             var trainingLimit = (int) (trainingData.Count * 0.8);
-            var alpha = 0.25;
-            const int epoch = 100000;
+            var alpha = 0.95;
+            const int epoch = 10000;
 
             // Initialize Perceptrons
             var perceptrons = new List<Perceptron>();
@@ -41,7 +43,7 @@ namespace Perceptron
                 var p = SetupPerceptron(i, alpha);
                 perceptrons.Add(p);
             }
-            
+
             for (var e = 0; e < epoch; e++)
             {
                 var indices = RandomizeSequence(trainingLabels.Length);
@@ -51,9 +53,8 @@ namespace Perceptron
                     var x = trainingData[indices[i]];
                     var xLabel = trainingLabels[indices[i]];
 
-                    foreach (var p in perceptrons)
-                    {
-                        p.Classify(x, xLabel);
+                    for (var j = 0; j < perceptrons.Count; j++) {
+                        perceptrons[j].Classify(x, xLabel);
                     }
                 }
 
@@ -67,32 +68,37 @@ namespace Perceptron
                     var xLabel = trainingLabels[indices[i]];
 
                     var best = 0.0;
-                    var perceptron = 0;
+                    var predict = 0;
 
                     for (var j = 0; j < perceptrons.Count; j++)
                     {
-                        var p = perceptrons[j];
-                        var temp = p.Classify(x, xLabel);
+                        var score = perceptrons[j].Classify(x, xLabel);
 
-                        if (temp > best)
+                        if (score > best)
                         {
-                            best = temp;
-                            perceptron = j;
+
+                            best = score;
+                            predict = j;
                         }
+
+                        // if (e % 10 == 0) {
+                        //     Console.WriteLine(xLabel + ":" + j + "--" + best + ":" + score);
+                        // }
                     }
 
-                    if (perceptron == xLabel)
+                    if (predict == xLabel)
                     {
                         correct++;
                     }
+                    
 
                     numClassified++;
                 }
 
-                if (e % 100 == 0)
-                {
+                // if (e % 100 == 0)
+                // {
                     Console.WriteLine("Epoch: " + e + " Accuracy: " + correct / numClassified * 100);
-                }
+                // }
             }
 
             return perceptrons;
