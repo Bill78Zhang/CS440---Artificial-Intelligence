@@ -2,23 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using FANNCSharp;
-using FANNCSharp.Double;
-using DataType = System.Double;
 
 namespace Perceptron
 {
-    class Program
+    class Part2
     {
         static void Main(string[] args)
-        {
-            Part2();
-
-            const int hiddenLayers = 3;
-            var fann = new NeuralNet(netType: NetworkType.LAYER, numLayers: hiddenLayers);
-        }
-
-        private static void Part2()
         {
             var perceptrons = TrainPerceptrons();
 

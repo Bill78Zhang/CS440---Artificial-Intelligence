@@ -1,0 +1,9 @@
+D:\CS\440\hw7\Perceptrons\Perceptron\bin\Release\netcoreapp1.0\Perceptron.deps.json
+D:\CS\440\hw7\Perceptrons\Perceptron\bin\Release\netcoreapp1.0\Perceptron.runtimeconfig.json
+D:\CS\440\hw7\Perceptrons\Perceptron\bin\Release\netcoreapp1.0\Perceptron.runtimeconfig.dev.json
+D:\CS\440\hw7\Perceptrons\Perceptron\bin\Release\netcoreapp1.0\Perceptron.dll
+D:\CS\440\hw7\Perceptrons\Perceptron\bin\Release\netcoreapp1.0\Perceptron.pdb
+D:\CS\440\hw7\Perceptrons\Perceptron\obj\Release\netcoreapp1.0\Perceptron.csprojResolveAssemblyReference.cache
+D:\CS\440\hw7\Perceptrons\Perceptron\obj\Release\netcoreapp1.0\Perceptron.AssemblyInfo.cs
+D:\CS\440\hw7\Perceptrons\Perceptron\obj\Release\netcoreapp1.0\Perceptron.dll
+D:\CS\440\hw7\Perceptrons\Perceptron\obj\Release\netcoreapp1.0\Perceptron.pdb

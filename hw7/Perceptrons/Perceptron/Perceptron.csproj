@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DefineConstants>TRACE;RELEASE;NETCOREAPP1_1;FANN_DOUBLE</DefineConstants>
+    <DefineConstants>TRACE;RELEASE;NETCOREAPP1_1;FANN_DOUBLE;FANN_FIXED;FANN_FLOAT;RELEASE;NETCOREAPP1_1;RELEASE;NETCOREAPP1_1</DefineConstants>
   </PropertyGroup>
 
 </Project>
