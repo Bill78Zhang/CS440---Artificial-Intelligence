@@ -1,12 +1,3 @@
-D:/CS/440/hw7/Perceptrons/Perceptron/bin/Debug/netcoreapp1.1/Perceptron.deps.json
-D:/CS/440/hw7/Perceptrons/Perceptron/bin/Debug/netcoreapp1.1/Perceptron.runtimeconfig.json
-D:/CS/440/hw7/Perceptrons/Perceptron/bin/Debug/netcoreapp1.1/Perceptron.runtimeconfig.dev.json
-D:/CS/440/hw7/Perceptrons/Perceptron/bin/Debug/netcoreapp1.1/Perceptron.dll
-D:/CS/440/hw7/Perceptrons/Perceptron/bin/Debug/netcoreapp1.1/Perceptron.pdb
-D:/CS/440/hw7/Perceptrons/Perceptron/obj/Debug/netcoreapp1.1/Perceptron.csprojResolveAssemblyReference.cache
-D:/CS/440/hw7/Perceptrons/Perceptron/obj/Debug/netcoreapp1.1/Perceptron.AssemblyInfo.cs
-D:/CS/440/hw7/Perceptrons/Perceptron/obj/Debug/netcoreapp1.1/Perceptron.dll
-D:/CS/440/hw7/Perceptrons/Perceptron/obj/Debug/netcoreapp1.1/Perceptron.pdb
 /Users/exvargos/CS/UIUC/440/hw7/Perceptrons/Perceptron/bin/Debug/netcoreapp1.1/Perceptron.deps.json
 /Users/exvargos/CS/UIUC/440/hw7/Perceptrons/Perceptron/bin/Debug/netcoreapp1.1/Perceptron.runtimeconfig.json
 /Users/exvargos/CS/UIUC/440/hw7/Perceptrons/Perceptron/bin/Debug/netcoreapp1.1/Perceptron.runtimeconfig.dev.json
@@ -17,3 +8,12 @@ D:/CS/440/hw7/Perceptrons/Perceptron/obj/Debug/netcoreapp1.1/Perceptron.pdb
 /Users/exvargos/CS/UIUC/440/hw7/Perceptrons/Perceptron/obj/Debug/netcoreapp1.1/Perceptron.AssemblyInfo.cs
 /Users/exvargos/CS/UIUC/440/hw7/Perceptrons/Perceptron/obj/Debug/netcoreapp1.1/Perceptron.dll
 /Users/exvargos/CS/UIUC/440/hw7/Perceptrons/Perceptron/obj/Debug/netcoreapp1.1/Perceptron.pdb
+D:\CS\440\hw7\Perceptrons\Perceptron\bin\Debug\netcoreapp1.1\Perceptron.deps.json
+D:\CS\440\hw7\Perceptrons\Perceptron\bin\Debug\netcoreapp1.1\Perceptron.runtimeconfig.json
+D:\CS\440\hw7\Perceptrons\Perceptron\bin\Debug\netcoreapp1.1\Perceptron.runtimeconfig.dev.json
+D:\CS\440\hw7\Perceptrons\Perceptron\bin\Debug\netcoreapp1.1\Perceptron.dll
+D:\CS\440\hw7\Perceptrons\Perceptron\bin\Debug\netcoreapp1.1\Perceptron.pdb
+D:\CS\440\hw7\Perceptrons\Perceptron\obj\Debug\netcoreapp1.1\Perceptron.AssemblyInfo.cs
+D:\CS\440\hw7\Perceptrons\Perceptron\obj\Debug\netcoreapp1.1\Perceptron.dll
+D:\CS\440\hw7\Perceptrons\Perceptron\obj\Debug\netcoreapp1.1\Perceptron.pdb
+D:\CS\440\hw7\Perceptrons\Perceptron\obj\Debug\netcoreapp1.1\Perceptron.csprojResolveAssemblyReference.cache

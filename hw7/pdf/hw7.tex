@@ -27,21 +27,11 @@
 
 \noindent \textbf{2. } Implementing a Perceptron \\
 
-Reference: https://en.wikipedia.org/wiki/Perceptron
-
-percepw(x) assigns 1 for + if w.x > 0 (vector dot product)
-else assigns 0 for -
-err = label(x) - percepw(x)
-delta w = alpha * err * x
-w += delta w
-epochs = number of iterations through the entire data set used to train
-limit epochs
-
 \begin{enumerate}
-	\item Try adjusting each setting listed above, and report which combination (learning rate, training example ordering, and weight initialization) worked best. If you used random initial weights, specify what distribution the weights came from (uniform, Gaussian, or another distribution).
-	\item How many epochs were necessary to train your perceptron?
-	\item What accuracy did you achieve on the training set?
-	\item What accuracy did you achieve on the test set?	
+	\item Learning rate decays. Training example is randomized with Fisher-Yates shuffle. Weight initialized to 0.
+	\item Only about 5 epochs were necessary to train the perceptron to hit the minimum 80\%. However given 400 epochs, the perceptron will lead to \~95\% accuracy.
+	\item 94\~96\%.
+	\item 95\%.
 \end{enumerate}
 
 \pagebreak

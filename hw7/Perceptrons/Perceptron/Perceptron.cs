@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-
-namespace Perceptron
+﻿namespace Perceptron
 {
     internal class Perceptron
     {
@@ -31,15 +26,6 @@ namespace Perceptron
             UpdateWeight(deltaWeight);
 
 	        return dotProduct + bias;
-        }
-
-        public void UpdateAlpha(int epoch)
-        {
-            Alpha -= 1.0 / epoch;
-            if (Alpha <= 0.0)
-            {
-                Alpha = 0.0;
-            }
         }
 
         /// <summary>
@@ -77,12 +63,13 @@ namespace Perceptron
         /// Returns results of multiplication </returns>
         private double[] MultiplyConstant(double constant, double[] x)
         {
+            var temp = new double[x.Length];
             for (var i = 0; i < x.Length; i++)
             {
-                x[i] *= constant;
+                temp[i] = x[i] * constant;
             }
 
-            return x;
+            return temp;
         }
 
         /// <summary>
