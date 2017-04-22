@@ -29,9 +29,19 @@ namespace Perceptron
             const string labelFilePath = "data/traininglabels";
             var trainingLabels = ImportLabels(labelFilePath);
 
-            var trainingLimit = (int)(trainingData.Count * 0.8);
-            const double alpha = 0.95;
-            const int epoch = 500;
+            // Parameters
+            var trainingLimit = (int)(trainingData.Count * 0.2);
+            const double alpha = 1.0;
+            const int epoch = 200;
+
+            // Setup Validation Set
+            var validationData = trainingData.Take(trainingLimit).ToList();
+            var validationLabels = trainingLabels.Take(trainingLimit).ToList();
+            trainingData = trainingData.Skip(trainingLimit).ToList();
+            trainingLabels = trainingLabels.Skip(trainingLimit).ToList();
+            const double tol = 1e-4;
+            var lastAccuracy = 0.0;
+            var doneTraining = false;
 
             // Initialize Perceptrons
             var perceptrons = new List<Perceptron>();
@@ -43,34 +53,40 @@ namespace Perceptron
 
             for (var e = 0; e < epoch; e++)
             {
-                var indices = RandomizeSequence(trainingLabels.Length);
+                if (doneTraining) {
+                    Console.WriteLine("Done Training");
+                    break;
+                }
+
                 // Training
-                for (var i = 0; i < trainingLimit; i++)
+                var indices = RandomizeSequence(trainingLabels.Count);
+                for (var i = 0; i < trainingLabels.Count; i++)
                 {
 
                     var xLabel = trainingLabels[indices[i]];
 
                     for (var j = 0; j < perceptrons.Count; j++)
                     {
-                        perceptrons[j].Classify(trainingData[indices[i]], xLabel);
+                        perceptrons[j].Classify(trainingData[indices[i]], xLabel, true);
                     }
                 }
 
                 var correct = 0.0;
                 var numClassified = 0.0;
 
+                // TODO: Refactor out to individual function
                 // Validation
-                for (var i = trainingLimit; i < indices.Length; i++)
+                for (var i = 0; i < validationLabels.Count; i++)
                 {
-                    var x = trainingData[indices[i]];
-                    var xLabel = trainingLabels[indices[i]];
+                    var x = validationData[i];
+                    var xLabel = validationLabels[i];
 
                     var best = 0.0;
                     var predict = 0;
 
                     for (var j = 0; j < perceptrons.Count; j++)
                     {
-                        var score = perceptrons[j].Classify(x, xLabel);
+                        var score = perceptrons[j].Classify(x, xLabel, false);
 
                         if (score > best)
                         {
@@ -86,8 +102,22 @@ namespace Perceptron
 
                     numClassified++;
                 }
+                var accuracy = correct / numClassified * 100;
 
-                Console.WriteLine("Epoch: " + e + " Accuracy: " + correct / numClassified * 100);
+                // TODO: Fix This, not quiet accurate
+                if (Math.Abs(accuracy - lastAccuracy) < tol) {
+                    doneTraining = true;
+                } else {
+                    lastAccuracy = accuracy;
+                }
+
+                Console.WriteLine("Epoch: " + e + " Accuracy: " + accuracy);
+
+                for (var i = 0; i < perceptrons.Count; i++) {
+                    perceptrons[i].UpdateAlpha();
+                    Console.Write(perceptrons[i].Alpha);
+                }
+                Console.WriteLine();
             }
 
             return perceptrons;
@@ -103,10 +133,10 @@ namespace Perceptron
             var correct = 0.0;
             var numClassified = 0.0;
 
-            const string imageFilePath = "data/trainingimages";
+            const string imageFilePath = "data/testimages";
             var testData = ImportImages(imageFilePath);
 
-            const string labelFilePath = "data/traininglabels";
+            const string labelFilePath = "data/testlabels";
             var testLabels = ImportLabels(labelFilePath);
 
             for (var i = 0; i < testData.Count; i++)
@@ -119,7 +149,7 @@ namespace Perceptron
 
                 for (var j = 0; j < perceptrons.Count; j++)
                 {
-                    var score = perceptrons[j].Classify(x, xLabel);
+                    var score = perceptrons[j].Classify(x, xLabel, false);
 
                     if (score > best)
                     {
@@ -196,7 +226,7 @@ namespace Perceptron
         /// <param name="labelFilePath"> File Path to Label File </param>
         /// <returns>
         /// Returns Int Array of labels </returns>
-        private static int[] ImportLabels(string labelFilePath)
+        private static List<int> ImportLabels(string labelFilePath)
         {
             var labels = "";
             string line;
@@ -206,7 +236,7 @@ namespace Perceptron
                 labels += line;
             }
 
-            var dataLabels = labels.Select(label => label - '0').ToArray();
+            var dataLabels = labels.Select(label => label - '0').ToList();
 
             return dataLabels;
         }
@@ -223,7 +253,7 @@ namespace Perceptron
             {
                 Label = label,
                 Alpha = alpha,
-                Weights = new double[784]
+                Weights = new double[785]
             };
 
             for (var i = 0; i < p.Weights.Length; i++)

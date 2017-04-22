@@ -1,4 +1,6 @@
-﻿namespace Perceptron
+﻿using System;
+
+namespace Perceptron
 {
     internal class Perceptron
     {
@@ -6,13 +8,16 @@
         public double Alpha;
         public double[] Weights;
 
+        private int e = 0;
+
         /// <summary>
         /// Classifies input vector </summary>
         /// <param name="x"> Input Data Vector </param>
         /// <param name="xLabel"> Label for Input </param>
-        public double Classify(double[] x, int xLabel)
+        public double Classify(double[] x, int xLabel, bool isTraining)
         {
- 	        const int bias = 1;
+ 	        // const int bias = 1;
+             
             var dotProduct = DotProduct(x);
             var percep = 0;
             if (dotProduct > 0)
@@ -20,13 +25,27 @@
                 percep = 1;
             }
 
-            var err = MatchLabel(xLabel) - percep;
-            var loss = Alpha * err;
-            var deltaWeight = MultiplyConstant(loss, x);
-            UpdateWeight(deltaWeight);
+            if (isTraining) {
+                var err = MatchLabel(xLabel) - percep;
+                var loss = Alpha * err;
+                var deltaWeight = MultiplyConstant(loss, x);
+                UpdateWeight(deltaWeight);
+            }
 
-	        return dotProduct + bias;
+	        return dotProduct;
         }
+
+        /// <summary>
+        /// Updates Alpha </summary>
+        public void UpdateAlpha() {
+            Alpha -= 0.01 * Math.Pow(1.01, e);
+            e++;
+
+            if (Alpha <= 0) {
+                Alpha = 0;
+            }
+        }
+
 
         /// <summary>
         /// Updates Weights </summary>
@@ -49,7 +68,11 @@
             var value = 0.0;
             for (var i = 0; i < Weights.Length; i++)
             {
-                value += Weights[i] * x[i];
+                if (i < 784) {
+                    value += Weights[i] * x[i];
+                } else {
+                    value += Weights[i] * 1;
+                }
             }
 
             return value;
@@ -63,11 +86,12 @@
         /// Returns results of multiplication </returns>
         private double[] MultiplyConstant(double constant, double[] x)
         {
-            var temp = new double[x.Length];
+            var temp = new double[x.Length + 1];
             for (var i = 0; i < x.Length; i++)
             {
                 temp[i] = x[i] * constant;
             }
+            temp[784] = constant;
 
             return temp;
         }
