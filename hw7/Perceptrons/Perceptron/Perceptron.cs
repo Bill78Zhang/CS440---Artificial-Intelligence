@@ -38,14 +38,13 @@ namespace Perceptron
         /// <summary>
         /// Updates Alpha </summary>
         public void UpdateAlpha() {
-            Alpha -= 0.01 * Math.Pow(1.01, e);
+            Alpha -= 0.002 * Math.Pow(1.01, e);
             e++;
 
             if (Alpha <= 0) {
                 Alpha = 0;
             }
         }
-
 
         /// <summary>
         /// Updates Weights </summary>

@@ -54,11 +54,16 @@ def import_labels(label_file_path):
 
 
 def part_3():
+    '''
+    Multi-Layer Perceptron Classifier using sklearn Neural Networks
+    '''
     # Import Training Data
     image_file_path = 'data/trainingimages'
     train_data = import_images(image_file_path)
     label_file_path = 'data/traininglabels'
     train_label = import_labels(label_file_path)
+
+    training_limit = (int)(len(train_label) * 0.8)
 
     # Import Test Data
     image_file_path = 'data/testimages'
@@ -68,31 +73,25 @@ def part_3():
 
     # HyperParameters
     act_funcs = ['logistic', 'tanh', 'relu']
-    activation = act_funcs[0]
-    hidden_layers = 3
-    neurons = 5
-    max_iter = 500
-    shuffle = True
+    activation = act_funcs[2]
+    hidden_layers = 100
+    neurons = 100
     verbose = True
 
     # Classify
     clf = MLPClassifier(activation=activation
                         , hidden_layer_sizes=(hidden_layers, neurons)
-                        , max_iter=max_iter
-                        , shuffle=shuffle
                         , verbose=verbose)
-    clf.fit(train_data, train_label)
-    predict = clf.predict(test_data)
+    clf.fit(train_data[:training_limit], train_label[:training_limit])
 
-    # Estimate Accuracy
-    correct = 0.0
-    num_classified = 0
-    for index in range(len(predict)):
-        if predict[index] == test_label[index]:
-            correct += 1
-        num_classified += 1
-
-    print(correct / num_classified * 100)
+    # Store HyperParameters and Score Classifier
+    target = open('hyperparameters.txt', 'a')
+    target.write(','.join([activation, str(hidden_layers), str(neurons), str(clf.n_iter_)]))
+    target.write('\n')
+    target.write(str(clf.score(train_data[training_limit:], train_label[training_limit:])))
+    target.write('->')
+    target.write(str(clf.score(test_data, test_label)))
+    target.write('\n')
 
 
 if __name__ == "__main__":

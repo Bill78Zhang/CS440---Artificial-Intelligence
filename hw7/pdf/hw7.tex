@@ -1,6 +1,5 @@
 \documentclass[titlepage]{article}
 \usepackage{amsmath}
-\usepackage{enumitem}
 \usepackage{graphicx}
 
 \title{CS 440 - Homework 7}
@@ -23,27 +22,30 @@
 	Yes, because it seems there is plenty of data available to properly train the perceptron, and the data can be properly separated into positive and negative examples by a hyperplane
 \end{enumerate}
 
-\pagebreak
-
 \noindent \textbf{2. } Implementing a Perceptron \\
 
+The environment is Visual Studio 2017 with the latest .Net Framework.
+
 \begin{enumerate}
-	\item Learning rate decays. Training example is randomized with Fisher-Yates shuffle. Weight initialized to 0.
-	\item Only about 5 epochs were necessary to train the perceptron to hit the minimum 80\%. However given 400 epochs, the perceptron will lead to \~95\% accuracy.
-	\item 94\~96\%.
-	\item 95\%.
+	\item Learning rate decays. Training example is randomized with Fisher-Yates shuffle. Weight randomized with uniform distribution. I tried multiple combinations of parameters, including constant/decaying rates, randomized/fixed order of training data, and zeros/uniform/gaussian distributions. All of them result in about the same training accuracy (give or take 2\%), and about the same test accuracy (~75\%)
+	\item It was set at 200 epochs, it only takes about 150 epochs for the validation set to break early.
+	\item 84-86\%
+	\item 77\%
 \end{enumerate}
 
 \pagebreak
 
-\noindent \textbf{2. } Using a Multilayer Perceptron \\
+\noindent \textbf{3. } Using a Multilayer Perceptron \\
+
+Because of my environment for Part 2, I could not find any Multilayer Perceptron library. The two that I tried are FANN (Fast Artificial Neural Network Library, open-source library) and ALGLIB. Both required a much older .Net Framework that I could not get to setup. I tried for 2 hours, but it always resulted in the same error (Needing a older version of .Net, corresponding to Visual Studio 2008). After asking a TA, I switched over to Python for this reason.
+The environment for Part 3 is Python3.6 with sklearn.
 
 \begin{enumerate}
-	\item Which combinations of hyperparameters did you try, and which combination worked best?
-	\item How many epochs were necessary to train your multilayer perceptron?
-	\item What accuracy did you achieve on the training set?
-	\item What accuracy did you achieve on the test set?	
-	\item How did the results obtained using the multilayer perceptron compare to those obtained using the single-layer perceptron in part 2? Explain the differences.
+	\item Most of my combinations are listed in hyperparameters.txt. I tried all three activation functions, and Rectified Linear Unit was the best by far, converging the fastest. I started with smaller numbers of hidden layers and neurons, and bumped those up. At 100 hidden layers and 100 neurons per layer, I got my best result. It is a little overkill, however as noted in hyperparameters.txt, I've also attempted 25, 250 (way more reasonable), but that only got to 89\%. 100, 100 consistently hits 90\% accuracy
+	\item I set the limit at 200 epochs so that it would have the same settings as Part 2. It converged at 56 epochs
+	\item 94.7\%
+	\item 90.3\%
+	\item The Multilayer Perceptron was significantly more accurate, on average 15\% more accurate (only because I could not get the minimum 80\% no matter what parameters i tried). The accuracy is due to the more complex nature of the Multilayer Perceptron, showing that linear separators are not enough to properly separate the data, but more complex hyperplanes are needed instead.
 \end{enumerate}
 
 \end{document}

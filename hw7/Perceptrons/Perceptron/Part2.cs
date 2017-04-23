@@ -30,7 +30,7 @@ namespace Perceptron
             var trainingLabels = ImportLabels(labelFilePath);
 
             // Parameters
-            var trainingLimit = (int)(trainingData.Count * 0.2);
+            var trainingLimit = (int)(trainingData.Count * 0.1);
             const double alpha = 1.0;
             const int epoch = 200;
 
@@ -39,8 +39,9 @@ namespace Perceptron
             var validationLabels = trainingLabels.Take(trainingLimit).ToList();
             trainingData = trainingData.Skip(trainingLimit).ToList();
             trainingLabels = trainingLabels.Skip(trainingLimit).ToList();
-            const double tol = 1e-4;
+            const double tol = 1e-5;
             var lastAccuracy = 0.0;
+            var lastLastAccuracy = 0.0;
             var doneTraining = false;
 
             // Initialize Perceptrons
@@ -62,65 +63,71 @@ namespace Perceptron
                 var indices = RandomizeSequence(trainingLabels.Count);
                 for (var i = 0; i < trainingLabels.Count; i++)
                 {
-
                     var xLabel = trainingLabels[indices[i]];
 
-                    for (var j = 0; j < perceptrons.Count; j++)
+                    foreach (var p in perceptrons)
                     {
-                        perceptrons[j].Classify(trainingData[indices[i]], xLabel, true);
+                        p.Classify(trainingData[indices[i]], xLabel, true);
                     }
                 }
 
-                var correct = 0.0;
-                var numClassified = 0.0;
+                // Validate
+                var accuracy = ValidatePerceptrons(validationLabels, validationData, perceptrons);
 
-                // TODO: Refactor out to individual function
-                // Validation
-                for (var i = 0; i < validationLabels.Count; i++)
+                // Decrease Alpha
+                foreach (var p in perceptrons)
                 {
-                    var x = validationData[i];
-                    var xLabel = validationLabels[i];
-
-                    var best = 0.0;
-                    var predict = 0;
-
-                    for (var j = 0; j < perceptrons.Count; j++)
-                    {
-                        var score = perceptrons[j].Classify(x, xLabel, false);
-
-                        if (score > best)
-                        {
-                            best = score;
-                            predict = j;
-                        }
-                    }
-
-                    if (predict == xLabel)
-                    {
-                        correct++;
-                    }
-
-                    numClassified++;
+                    p.UpdateAlpha();
                 }
-                var accuracy = correct / numClassified * 100;
 
-                // TODO: Fix This, not quiet accurate
-                if (Math.Abs(accuracy - lastAccuracy) < tol) {
+                if ((Math.Abs(accuracy - lastAccuracy) + Math.Abs(lastAccuracy - lastLastAccuracy)) / 2 < tol)
+                {
                     doneTraining = true;
-                } else {
+                } else
+                {
+                    lastLastAccuracy = lastAccuracy;
                     lastAccuracy = accuracy;
                 }
 
                 Console.WriteLine("Epoch: " + e + " Accuracy: " + accuracy);
-
-                for (var i = 0; i < perceptrons.Count; i++) {
-                    perceptrons[i].UpdateAlpha();
-                    Console.Write(perceptrons[i].Alpha);
-                }
-                Console.WriteLine();
             }
 
             return perceptrons;
+        }
+
+        private static double ValidatePerceptrons(List<int> validationLabels, List<double[]> validationData, List<Perceptron> perceptrons)
+        {
+            var correct = 0.0;
+            var numClassified = 0.0;
+
+            for (var i = 0; i < validationLabels.Count; i++)
+            {
+                var x = validationData[i];
+                var xLabel = validationLabels[i];
+
+                var best = 0.0;
+                var predict = 0;
+
+                for (var j = 0; j < perceptrons.Count; j++)
+                {
+                    var score = perceptrons[j].Classify(x, xLabel, false);
+
+                    if (score > best)
+                    {
+                        best = score;
+                        predict = j;
+                    }
+                }
+
+                if (predict == xLabel)
+                {
+                    correct++;
+                }
+
+                numClassified++;
+            }
+            var accuracy = correct / numClassified * 100;
+            return accuracy;
         }
 
         /// <summary>
@@ -258,10 +265,26 @@ namespace Perceptron
 
             for (var i = 0; i < p.Weights.Length; i++)
             {
-                p.Weights[i] = 0.0;
+                var r = new Random();
+                //p.Weights[i] = 10 * r.NextDouble();
+                p.Weights[i] = RandomGaussian();
             }
 
+            p.Weights[784] = 0.0;
+
             return p;
+        }
+
+        private static double RandomGaussian()
+        {
+            var rand = new Random(); //reuse this if you are generating many
+            var u1 = 1.0 - rand.NextDouble(); //uniform(0,1] random doubles
+            var u2 = 1.0 - rand.NextDouble();
+            var randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) *
+                                   Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
+            var randNormal = 0 + 5 * randStdNormal; //random normal(mean,stdDev^2)
+
+            return randNormal;
         }
 
         /// <summary>
