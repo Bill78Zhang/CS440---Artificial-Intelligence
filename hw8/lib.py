@@ -55,25 +55,6 @@ class Cluster(object):
             new_attr /= len(self.samples)
             setattr(self.centroid, attr, new_attr)
 
-        # new_sepal_l = 0.0
-        # new_sepal_w = 0.0
-        # new_petal_l = 0.0
-        # new_petal_w = 0.0
-        # for sample in self.samples:
-        #     new_sepal_l += sample.sepal_l
-        #     new_sepal_w += sample.sepal_w
-        #     new_petal_l += sample.petal_l
-        #     new_petal_w += sample.petal_w
-        # new_sepal_l /= len(self.samples)
-        # new_sepal_w /= len(self.samples)
-        # new_petal_l /= len(self.samples)
-        # new_petal_w /= len(self.samples)
-
-        # self.centroid.sepal_l = new_sepal_l
-        # self.centroid.sepal_w = new_sepal_w
-        # self.centroid.petal_l = new_petal_l
-        # self.centroid.petal_w = new_petal_w
-
     def clear_samples(self):
         '''
         Clears Samples
@@ -126,15 +107,13 @@ class Iris(object):
         attributes = ['sepal_l', 'sepal_w', 'petal_l', 'petal_w']
         total = 0.0
 
-        # total += (self.sepal_l - new_iris.sepal_l) ** 2
-        # total += (self.sepal_w - new_iris.sepal_w) ** 2
-        # total += (self.petal_l - new_iris.petal_l) ** 2
-        # total += (self.petal_w - new_iris.petal_w) ** 2
-
         for attr in attributes:
             total += (getattr(self, attr) - getattr(new_iris, attr)) ** 2
 
         return total ** 0.5
+
+    def __str__(self):
+        return "%f %f %f %f" % (self.sepal_l, self.sepal_w, self.petal_l, self.petal_w)
 
 
 def import_data():
@@ -145,7 +124,7 @@ def import_data():
     '''
     data_file = 'data/iris.data.txt'
     iris_samples = []
-    iris_labels = []
+    iris_labels = {}
 
     with open(data_file, 'r') as csvfile:
         iris_reader = csv.reader(csvfile, delimiter=',')
@@ -153,8 +132,9 @@ def import_data():
             if len(row) == 0:
                 continue
 
-            iris_samples.append(Iris(float(row[0]), float(row[1]), float(row[2]), float(row[3])))
-            iris_labels.append(row[4])
+            sample = Iris(float(row[0]), float(row[1]), float(row[2]), float(row[3]))
+            iris_samples.append(sample)
+            iris_labels[str(sample)] = row[4]
 
     return iris_samples, iris_labels
 
